@@ -1,44 +1,59 @@
 /*
  * Angular 2 decorators and services
  */
-import { Component, ViewEncapsulation } from '@angular/core';
-import { RouteConfig, Router } from '@angular/router-deprecated';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {RouteConfig, Router} from '@angular/router-deprecated';
 
-import { AppState } from './app.service';
-import { Home } from './home';
-import { RouterActive } from './router-active';
-
+import {AppState} from './app.service';
+import {Home} from './home';
+import {RouterActive} from './router-active';
+import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
+import {MD_TOOLBAR_DIRECTIVES} from '@angular2-material/toolbar';
+import {MD_TABS_DIRECTIVES} from '@angular2-material/tabs';
+import {MD_PROGRESS_BAR_DIRECTIVES} from '@angular2-material/progress-bar';
 /*
  * App Component
  * Top Level Component
  */
 @Component({
   selector: 'app',
-  pipes: [ ],
-  providers: [ ],
-  directives: [ RouterActive ],
+  pipes: [],
+  providers: [],
+  directives: [RouterActive, MD_BUTTON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES, MD_TABS_DIRECTIVES, MD_PROGRESS_BAR_DIRECTIVES],
   encapsulation: ViewEncapsulation.None,
   styles: [
     require('./app.css')
   ],
   template: `
-    <span router-active>
-      <button [routerLink]=" ['Index'] ">
-        Index
-      </button>
-    </span>
-    <span router-active>
-      <button [routerLink]=" ['Home'] ">
-        Home
-      </button>
-    </span>
-    <span router-active>
-      <button [routerLink]=" ['About'] ">
-        About
-      </button>
-    </span>
+    <md-progress-bar *ngIf="isNetworkActive" style="position: absolute; top: 0; left: 0" mode="query" color="accent"></md-progress-bar>
+    
 
     <main>
+      <md-toolbar color="primary">
+        <span>Star Wars</span>
+        
+        <!-- This fills the remaining space of the current row -->
+        <span class="example-fill-remaining-space"></span>
+        
+        <span></span>
+      </md-toolbar>
+      
+      <span router-active>
+        <button md-button [routerLink]=" ['Index'] ">
+          Index
+        </button>
+      </span>
+      <span router-active>
+        <button md-button [routerLink]=" ['Home'] ">
+          Home
+        </button>
+      </span>
+      <span router-active>
+        <button md-button [routerLink]=" ['About'] ">
+          About
+        </button>
+      </span>
+    
       <router-outlet></router-outlet>
     </main>
 
@@ -46,10 +61,10 @@ import { RouterActive } from './router-active';
   `
 })
 @RouteConfig([
-  { path: '/',      name: 'Index', component: Home, useAsDefault: true },
-  { path: '/home',  name: 'Home',  component: Home },
+  {path: '/', name: 'Index', component: Home, useAsDefault: true},
+  {path: '/home', name: 'Home', component: Home},
   // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-  { path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About') }
+  {path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About')}
 ])
 export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
@@ -57,11 +72,10 @@ export class App {
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
 
-  constructor(
-    public appState: AppState) {
+  constructor(public appState:AppState) {
 
   }
-
+  
   ngOnInit() {
     console.log('Initial App State', this.appState.state);
   }

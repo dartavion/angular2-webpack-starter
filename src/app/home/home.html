@@ -35,6 +35,11 @@
       -->
 
     <pre>this.localState = {{ localState | json }}</pre>
+    <ul>
+    <li *ngFor="let item of data; let i = index">
+      {{item.name}}
+    </li>
+    </ul>
 
   </div>
 

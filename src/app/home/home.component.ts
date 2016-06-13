@@ -4,6 +4,8 @@ import { AppState } from '../app.service';
 import { Title } from './title';
 import { XLarge } from './x-large';
 
+import {SW} from '../services/sw.service'
+
 @Component({
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
@@ -11,7 +13,8 @@ import { XLarge } from './x-large';
   selector: 'home',  // <home></home>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
-    Title
+    Title,
+    SW
   ],
   // We need to tell Angular's compiler which directives are in our template.
   // Doing so will allow Angular to attach our behavior to an element
@@ -29,13 +32,21 @@ export class Home {
   // Set our default values
   localState = { value: '' };
   // TypeScript public modifiers
-  constructor(public appState: AppState, public title: Title) {
+  constructor(public appState: AppState, public title: Title, public sw: SW) {
 
   }
 
   ngOnInit() {
     console.log('hello `Home` component');
     // this.title.getData().subscribe(data => this.data = data);
+    this.getStarWars();
+  }
+
+  data = [];
+
+  getStarWars() {
+    this.sw.get('people')
+      .subscribe((data) => this.data = data.results);
   }
 
   submitState(value) {
